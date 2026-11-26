@@ -46,10 +46,8 @@ Windows'ta: `set EXPO_PUBLIC_LOCAL=1 && npx expo start --web`
 - Aynı anda iki oturum çalışabilir: başlamadan `git pull`, büyük değişiklik öncesi bu dosyadaki "Durum"a bak.
 
 ## Durum (son güncelleme: 26 Kasım 2026)
-**Açık hata (öncelikli):** Web/Telegram'da **Ayarlar** sekmesi ve **Evdekiler** (`app/pantry.tsx`) ekranı açılmıyor. Kullanıcı "basınca hiç açılmıyor" diyor.
-- Denenenler: Evdekiler gizli sekmeden (`href:null`) yığın rotasına taşındı; ErrorBoundary eklendi (sürüm 5). Kullanıcıdan hata ekranı görüntüsü henüz gelmedi.
-- Önerilen sonraki adım: `EXPO_PUBLIC_LOCAL=1 npx expo start --web` ile aç, Ayarlar'a ve ana ekrandaki Evdekiler kutusuna tıkla, tarayıcı konsolundaki hatayı oku. Şüpheliler: web'de `Alert`/`window.confirm`, `expo-secure-store` gibi yalnız mobil modüller, `router.push` yolları (`/pantry`), `baseUrl` ile yönlendirme, `localServer.ts`'te eksik rota.
+**Çözülen hata (sürüm 9+):** Web/Telegram'da Ayarlar ve Evdekiler açılmıyordu. Sebep: Expo Router web'de her ekranı ayrı JS dosyasına bölüyordu (`asyncRoutes` varsayılanı açık). Ayarlar'daki sürüm numarası yüzünden o dosyanın adı her yayında değişiyordu; önbellekteki eski sayfa silinmiş dosyayı isteyince Pages `404.html` (HTML) döndürüyor, ekran açılmıyordu ("Unexpected token '<'", "Requiring unknown module"). Çözüm: `app.json` → `["expo-router", { "asyncRoutes": false }]`, web tek dosya (`entry-*.js`). Bunu geri açma. Kullanıcı hâlâ görürse: Telegram'ı tamamen kapatıp açsın ya da önbelleği temizlesin.
 
-**Son yapılanlar:** market listesinde adet yukarı yuvarlama, gizlilik/koşullar profil olmadan açılır, uygulama kimliği `com.yesilea.app`, Render ayarları (Claude Code, PR #1–#3); birim fiyat ekranı sadeleşti, Ayarlar'da sürüm numarası, hata ekranı (claude.ai).
+**Son yapılanlar:** Ayarlar/Evdekiler önbellek hatası (PR #5); market listesinde adet yukarı yuvarlama, gizlilik/koşullar profil olmadan açılır, uygulama kimliği `com.yesilea.app`, Render ayarları (Claude Code, PR #1–#3); birim fiyat ekranı sadeleşti, Ayarlar'da sürüm numarası, hata ekranı (claude.ai).
 
 **Bekleyenler:** tarif kütüphanesini 28'den büyütmek (teklif edildi, onay yok); mağaza hesapları; gizlilik sayfasında veri sorumlusu bilgileri; TEST_MODE'u mağaza öncesi 0 yapmak.
