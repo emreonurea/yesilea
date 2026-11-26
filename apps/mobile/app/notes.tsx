@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Alert, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
+import { confirmAction } from "../lib/dialog";
 import { api } from "../lib/api";
 import { useLoad } from "../lib/useLoad";
 import { Button, Card, colors, ErrorText, Field, Loading, Muted, Screen } from "../components/ui";
@@ -30,10 +31,7 @@ export default function Notes() {
   }
 
   const remove = (id: string) =>
-    Alert.alert("Notu sil", "Bu not silinsin mi?", [
-      { text: "Vazgeç", style: "cancel" },
-      { text: "Sil", style: "destructive", onPress: async () => { try { setData(await api.deleteNote(id)); } catch (e) { setError((e as Error).message); } } },
-    ]);
+    confirmAction("Notu sil", "Bu not silinsin mi?", "Sil", async () => { try { setData(await api.deleteNote(id)); } catch (e) { setError((e as Error).message); } }, true);
 
   return (
     <Screen>

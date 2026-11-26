@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
-import { api, loadToken, setToken, setUnauthorizedHandler, type Me } from "./api";
+import { api, loadToken, LOCAL_MODE, setToken, setUnauthorizedHandler, type Me } from "./api";
 
 interface AuthState {
   ready: boolean;
@@ -19,6 +19,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = useCallback(async () => {
     try { await api.logout(); } catch { /* oturum zaten düşmüş olabilir */ }
+    if (LOCAL_MODE) {
+      // Sunucusuz modda hesap yok; çıkış yerine verileri yeniden yükle.
+      setMe(await api.me());
+      return;
+    }
     await setToken(null);
     setMe(null);
     setSignedIn(false);

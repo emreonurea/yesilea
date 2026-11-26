@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
-import { Alert, Pressable, Text, TextInput, View } from "react-native";
+import { Pressable, Text, TextInput, View } from "react-native";
+import { confirmAction } from "../lib/dialog";
 import { router } from "expo-router";
 import { buildCustomRecipe, foodNutrition, FOODS, searchFoods, type CustomItem } from "@menu/shared";
 import { api } from "../lib/api";
@@ -141,10 +142,7 @@ export default function MyRecipes() {
   if (loading && !data) return <Loading />;
 
   const remove = (id: string, name: string) =>
-    Alert.alert("Yemeği sil", `"${name}" silinsin mi?`, [
-      { text: "Vazgeç", style: "cancel" },
-      { text: "Sil", style: "destructive", onPress: async () => { try { setData(await api.deleteMyRecipe(id)); } catch (e) { setError((e as Error).message); } } },
-    ]);
+    confirmAction("Yemeği sil", `"${name}" silinsin mi?`, "Sil", async () => { try { setData(await api.deleteMyRecipe(id)); } catch (e) { setError((e as Error).message); } }, true);
 
   return (
     <Screen>

@@ -1,0 +1,54 @@
+# Web sürümünü (sunucusuz, veriler cihazda) derleyip GitHub Pages'te yayınlar.
+# Adres: https://emreonurea.github.io/yesilea/  — Telegram mini uygulaması da bu adresi açar.
+name: Web sürümünü yayınla
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Paketleri kur
+        run: npm install --no-audit --no-fund
+      - name: Testler
+        run: npx tsx --test packages/shared/test/*.test.ts apps/server/test/*.test.ts
+      - name: Web paketlerini ekle
+        working-directory: apps/mobile
+        run: npx expo install react-dom react-native-web @expo/metro-runtime
+      - name: Web sürümünü derle
+        working-directory: apps/mobile
+        env:
+          EXPO_PUBLIC_LOCAL: "1"
+        run: npx expo export --platform web --output-dir dist
+      - name: Sayfa yönlendirmesi
+        run: cp apps/mobile/dist/index.html apps/mobile/dist/404.html
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/mobile/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

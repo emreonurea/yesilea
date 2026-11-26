@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
-import * as SecureStore from "expo-secure-store";
+import { kvGet, kvSet } from "../lib/kv";
 import { FOODS, foodNutrition, searchFoods, type Food } from "@menu/shared";
 import { Button, Chip, colors, Muted, s } from "./ui";
 
@@ -23,7 +23,7 @@ export function FoodSearch({ onAdd }: { onAdd: (e: FoodEntry) => Promise<void> }
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    SecureStore.getItemAsync(RECENT_KEY).then((v) => v && setRecent(JSON.parse(v))).catch(() => {});
+    kvGet(RECENT_KEY).then((v) => v && setRecent(JSON.parse(v))).catch(() => {});
   }, []);
 
   const results = useMemo(() => searchFoods(q, 8), [q]);
@@ -46,7 +46,7 @@ export function FoodSearch({ onAdd }: { onAdd: (e: FoodEntry) => Promise<void> }
       await onAdd({ slot, name: `${food.name} (${amount})`, ...n });
       const next = [food.name, ...recent.filter((r) => r !== food.name)].slice(0, 8);
       setRecent(next);
-      SecureStore.setItemAsync(RECENT_KEY, JSON.stringify(next)).catch(() => {});
+      kvSet(RECENT_KEY, JSON.stringify(next)).catch(() => {});
       setFood(null);
     } finally {
       setBusy(false);

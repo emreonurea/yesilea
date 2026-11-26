@@ -1,5 +1,5 @@
 import {
-  ALLERGEN_LABELS, computeTargets, MEAL_SHARE, containsTerm, detectAllergens, halalStatusFor, HALAL_RULES_PROMPT, MEAL_SLOT_LABELS, normalize,
+  ALLERGEN_LABELS, checkAgainstProfile, computeTargets, MEAL_SHARE, containsTerm, detectAllergens, halalStatusFor, HALAL_RULES_PROMPT, MEAL_SLOT_LABELS, normalize,
   SAMPLE_RECIPES, scaleQty, scanRecipe, UNITS, validatePlan, validateRecipe,
   type MealPlan, type MealSlot, type PantryItem, type Profile, type Recipe, type UnitPrice,
 } from "@menu/shared";
@@ -32,32 +32,8 @@ export interface Provider {
   single(input: GenInput, req: SingleRequest, previousErrors: string[]): Promise<unknown>;
 }
 
-// ---------- Profil kontrolleri ----------
-
-const isWeekday = (day: number) => day >= 1 && day <= 5;
-
-/** Doğrulanmış tarifi kullanıcı kısıtlarına göre denetler. Hata yoksa helal durumu güncellenmiş tarifi döner. */
-export function checkAgainstProfile(r: Recipe, p: Profile, day: number, ctx: string): { recipe: Recipe | null; errors: string[] } {
-  const errors: string[] = [];
-  const scan = scanRecipe(r);
-  const status = halalStatusFor(scan, r.halal_status);
-  if (p.halal_sensitive && status === null) errors.push(`${ctx}: yasaklı malzeme içeriyor (${scan.forbidden.join(", ")})`);
-  const allergens = new Set([...r.allergens, ...detectAllergens(r.ingredients)]);
-  const hit = p.allergies.filter((a) => allergens.has(a));
-  if (hit.length) errors.push(`${ctx}: kullanıcının alerjisi var: ${hit.map((a) => ALLERGEN_LABELS[a]).join(", ")}`);
-  for (const d of p.dislikes) {
-    if (r.ingredients.some((i) => containsTerm(i.name, { term: normalize(d) })) || normalize(r.name_tr).includes(normalize(d))) {
-      errors.push(`${ctx}: kullanıcının sevmediği "${d}" var`);
-    }
-  }
-  if (p.diet === "vejetaryen" && !r.diet_tags.includes("vejetaryen") && !r.diet_tags.includes("vegan")) errors.push(`${ctx}: vejetaryen değil`);
-  if (p.diet === "vegan" && !r.diet_tags.includes("vegan")) errors.push(`${ctx}: vegan değil`);
-  if (p.max_weekday_minutes && isWeekday(day) && r.prep_min + r.cook_min > p.max_weekday_minutes) {
-    errors.push(`${ctx}: toplam süre ${r.prep_min + r.cook_min} dk, hafta içi sınır ${p.max_weekday_minutes} dk`);
-  }
-  if (errors.length) return { recipe: null, errors };
-  return { recipe: { ...r, allergens: [...allergens], halal_status: status ?? "kontrol gerekli" }, errors };
-}
+// Profil kontrolü ortak pakette (telefondaki sunucusuz mod da aynısını kullanır).
+export { checkAgainstProfile };
 
 // ---------- Üretim döngüleri ----------
 

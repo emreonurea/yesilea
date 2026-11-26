@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Alert, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
+import { showInfo } from "../lib/dialog";
 import { router } from "expo-router";
 import { PLAN_FEATURES, PRICE_PLANS, type PricePlan } from "@menu/shared";
 import { api } from "../lib/api";
@@ -23,7 +24,7 @@ export default function Premium() {
   useEffect(() => { api.health().then((h) => setTestMode(__DEV__ || h.test)).catch(() => {}); }, []);
 
   function buy() {
-    Alert.alert(
+    showInfo(
       "Ödeme henüz bağlı değil",
       "Satın alma, uygulama App Store ve Google Play'e yüklendiğinde mağazanın ödeme sistemiyle çalışacak. Şimdilik aşağıdaki geliştirici düğmesiyle Premium'u deneyebilirsiniz.",
     );
@@ -79,7 +80,7 @@ export default function Premium() {
           ))}
           <Button title="Premium'a geç" onPress={buy} />
           <Button title="Satın alımları geri yükle" kind="secondary" onPress={() =>
-            Alert.alert("Geri yükleme", "Mağaza ödeme sistemi bağlandığında daha önce aldığınız abonelik buradan geri yüklenecek.")} />
+            showInfo("Geri yükleme", "Mağaza ödeme sistemi bağlandığında daha önce aldığınız abonelik buradan geri yüklenecek.")} />
           <Muted style={{ fontSize: 12, marginTop: 6 }}>
             Fiyatlar örnektir. Abonelik, App Store / Google Play hesabınız üzerinden ücretlendirilir; dönem bitiminden en az 24 saat önce iptal edilmezse aynı süre ve ücretle otomatik yenilenir. Aboneliği mağaza hesap ayarlarınızdan yönetebilir ve iptal edebilirsiniz.
           </Muted>

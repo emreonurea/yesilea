@@ -1,20 +1,23 @@
-import * as SecureStore from "expo-secure-store";
+import { kvGet, kvSet } from "./kv";
+import { LocalError, localRequest } from "./localServer";
 import type { AllergenKey, AisleKey, CustomRecipeInput, MealSlot as Slot, Targets, CostEstimate, MealSlot, PantryItem, Profile, Recipe, UnitKey, UnitPrice } from "@menu/shared";
 
 const BASE = process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:8787";
+/** Sunucusuz mod: istekler telefonda karşılanır, veriler cihazda kalır (web sürümü). */
+export const LOCAL_MODE = process.env.EXPO_PUBLIC_LOCAL === "1";
 const TOKEN_KEY = "oturum";
 
 let token: string | null = null;
 
 export async function loadToken() {
-  token = await SecureStore.getItemAsync(TOKEN_KEY);
+  token = LOCAL_MODE ? "yerel" : await kvGet(TOKEN_KEY);
   return token;
 }
 
 export async function setToken(t: string | null) {
   token = t;
-  if (t) await SecureStore.setItemAsync(TOKEN_KEY, t);
-  else await SecureStore.deleteItemAsync(TOKEN_KEY);
+  if (LOCAL_MODE) return;
+  await kvSet(TOKEN_KEY, t);
 }
 
 export class ApiError extends Error {
@@ -28,6 +31,14 @@ let onUnauthorized: () => void = () => {};
 export const setUnauthorizedHandler = (f: () => void) => (onUnauthorized = f);
 
 async function req<T>(method: string, path: string, body?: unknown): Promise<T> {
+  if (LOCAL_MODE) {
+    try {
+      return await localRequest<T>(method, path, body);
+    } catch (e) {
+      if (e instanceof LocalError) throw new ApiError(e.status, e.code, e.message);
+      throw new ApiError(500, "internal", "Beklenmeyen bir hata oluştu.");
+    }
+  }
   let res: Response;
   try {
     res = await fetch(BASE + path, {

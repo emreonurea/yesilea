@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Alert, Pressable, Text } from "react-native";
+import { Pressable, Text } from "react-native";
+import { confirmAction } from "../../lib/dialog";
 import { DAY_LABELS, dayTotal, MEAL_SLOT_LABELS, MEAL_SLOTS, type MealSlot } from "@menu/shared";
 import { MacroLine } from "../../components/NutritionBars";
 import { api } from "../../lib/api";
@@ -48,10 +49,7 @@ export default function Menu() {
   }
 
   const confirmNew = () =>
-    Alert.alert("Yeni menü", "Mevcut menünün yerine yenisi hazırlansın mı?", [
-      { text: "Vazgeç", style: "cancel" },
-      { text: "Hazırla", onPress: () => create(true) },
-    ]);
+    confirmAction("Yeni menü", "Mevcut menünün yerine yenisi hazırlansın mı?", "Hazırla", () => create(true));
 
   if (loading && plan === undefined) return <Loading />;
   const u = me?.usage.plan;

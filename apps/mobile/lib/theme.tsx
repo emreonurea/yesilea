@@ -1,5 +1,5 @@
 import { createContext, Fragment, useContext, useEffect, useState, type ReactNode } from "react";
-import * as SecureStore from "expo-secure-store";
+import { kvGet, kvSet } from "./kv";
 import { colors } from "../components/ui";
 
 export interface Theme {
@@ -37,7 +37,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    SecureStore.getItemAsync(KEY).then((k) => {
+    kvGet(KEY).then((k) => {
       const t = THEMES.find((x) => x.key === k);
       if (t) { apply(t); setThemeState(t); }
     }).catch(() => {});
@@ -47,7 +47,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     const t = THEMES.find((x) => x.key === k) ?? THEMES[0];
     apply(t);
     setThemeState(t);
-    SecureStore.setItemAsync(KEY, t.key).catch(() => {});
+    kvSet(KEY, t.key).catch(() => {});
   };
 
   // Anahtar değişince alt ağaç yeniden oluşur ve yeni renklerle çizilir.

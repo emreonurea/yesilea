@@ -12,4 +12,5 @@ export * from "./premium";
 export * from "./foods";
 export { DIET_RECIPES } from "./dietRecipes";
 export * from "./custom";
+export * from "./localgen";
 export { SAMPLE_RECIPES } from "./sampleRecipes";
