@@ -12,9 +12,6 @@ export default function TabsLayout() {
       <Tabs.Screen name="list" options={{ title: "Market listesi", tabBarLabel: "Market", tabBarIcon: icon("🛒") }} />
       <Tabs.Screen name="nutrition" options={{ title: "Beslenme", tabBarIcon: icon("🥗") }} />
       <Tabs.Screen name="settings" options={{ title: "Ayarlar", tabBarIcon: icon("⚙️") }} />
-      {/* Sekme çubuğunda görünmeyen, ana sayfadaki kutucuklardan açılan ekranlar */}
-      <Tabs.Screen name="tonight" options={{ title: "Bu akşam", href: null }} />
-      <Tabs.Screen name="pantry" options={{ title: "Evdekiler", href: null }} />
     </Tabs>
   );
 }

@@ -30,6 +30,8 @@ function Gate() {
       <Stack.Screen name="prices" options={{ title: "Birim fiyatlar" }} />
       <Stack.Screen name="diet-recipes" options={{ title: "Diyet yemekleri" }} />
       <Stack.Screen name="my-recipes" options={{ title: "Yemeklerim" }} />
+      <Stack.Screen name="tonight" options={{ title: "Bu akşam" }} />
+      <Stack.Screen name="pantry" options={{ title: "Evdekiler" }} />
       <Stack.Screen name="notes" options={{ title: "Notlarım" }} />
       <Stack.Screen name="premium" options={{ title: "Premium" }} />
       <Stack.Screen name="body" options={{ title: "Diyet programım" }} />

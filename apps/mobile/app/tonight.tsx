@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Text, View } from "react-native";
 import { router } from "expo-router";
-import { api, type StoredRecipe } from "../../lib/api";
-import { useAuth } from "../../lib/auth";
-import { QuotaHint } from "../../components/PremiumLock";
-import { ApiError } from "../../lib/api";
-import { Button, Card, colors, Disclaimer, ErrorText, Muted, Screen, Title } from "../../components/ui";
-import { HalalBadge } from "../../components/RecipeCard";
+import { api, type StoredRecipe } from "../lib/api";
+import { useAuth } from "../lib/auth";
+import { QuotaHint } from "../components/PremiumLock";
+import { ApiError } from "../lib/api";
+import { Button, Card, colors, Disclaimer, ErrorText, Muted, Screen, Title } from "../components/ui";
+import { HalalBadge } from "../components/RecipeCard";
 
 export default function Tonight() {
   const { me, refresh } = useAuth();

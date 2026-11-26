@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { formatQty, UNITS, type UnitKey } from "@menu/shared";
-import { api } from "../../lib/api";
-import { useLoad } from "../../lib/useLoad";
-import { Button, Card, Chip, colors, ErrorText, Field, Loading, Muted, s, Screen } from "../../components/ui";
+import { api } from "../lib/api";
+import { useLoad } from "../lib/useLoad";
+import { Button, Card, Chip, colors, ErrorText, Field, Loading, Muted, s, Screen } from "../components/ui";
 
 const QUICK = ["domates", "kuru soğan", "patates", "yumurta", "süt", "yoğurt", "beyaz peynir", "tavuk göğsü", "dana kıyma", "pirinç", "bulgur", "kırmızı mercimek", "makarna", "un", "sarımsak", "biber", "havuç", "ıspanak", "limon", "zeytinyağı"];
 const COMMON_UNITS: UnitKey[] = ["adet", "g", "kg", "ml", "l", "su_bardagi", "yemek_kasigi", "demet"];
