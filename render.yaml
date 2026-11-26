@@ -1,4 +1,5 @@
-# Render.com için tek tıkla kurulum tanımı (Blueprint). Diğer hizmetlerde Dockerfile doğrudan kullanılabilir.
+# Render.com kurulum dosyası (Blueprint). Render → New → Blueprint → bu depoyu seçin.
+# Gizli anahtarlar (sync: false) kurulum sırasında Render ekranında sorulur; buraya yazılmaz.
 services:
   - type: web
     name: yesilea-server
@@ -6,26 +7,46 @@ services:
     dockerfilePath: ./apps/server/Dockerfile
     dockerContext: .
     region: frankfurt
+    # SQLite veritabanı diskte durur. Ücretsiz planda disk yok, her yeniden başlatmada veriler silinir.
     plan: starter
     healthCheckPath: /health
+    autoDeploy: true
+    buildFilter:
+      paths:
+        - apps/server/**
+        - packages/shared/**
+        - render.yaml
     disk:
       name: data
       mountPath: /data
       sizeGB: 1
     envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_PATH
+        value: /data/app.db
+      - key: APPLE_BUNDLE_ID
+        value: com.yesilea.app
+      # E-posta servisi bağlanana kadar giriş kodu uygulamada görünür. Mağaza yayınından önce 0 yapın.
+      - key: TEST_MODE
+        value: "1"
+      - key: MODEL_FAST
+        value: claude-haiku-5-5
+      - key: MODEL_QUALITY
+        value: claude-sonnet-5-5
+      - key: FREE_PLANS_PER_WEEK
+        value: "2"
+      - key: FREE_TONIGHT_PER_DAY
+        value: "5"
+      - key: FREE_SWAPS_PER_WEEK
+        value: "10"
       - key: ANTHROPIC_API_KEY
         sync: false
-      - key: APPLE_BUNDLE_ID
+      - key: BREVO_API_KEY
+        sync: false
+      - key: MAIL_FROM
         sync: false
       - key: GOOGLE_CLIENT_IDS
         sync: false
       - key: REVENUECAT_WEBHOOK_SECRET
         generateValue: true
-      # Kapalı test dönemi: giriş kodu uygulamada görünür, Premium denenebilir. MAĞAZA YAYININDAN ÖNCE 0 YAPIN.
-      - key: TEST_MODE
-        value: "1"
-      # E-posta ile giriş kodu (Brevo, ücretsiz plan). İkisi de doluysa kod e-postayla gider.
-      - key: BREVO_API_KEY
-        sync: false
-      - key: MAIL_FROM
-        sync: false

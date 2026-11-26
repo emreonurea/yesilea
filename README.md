@@ -78,6 +78,22 @@ npm test          # helal tarama, alerjen, birimler, liste, maliyet, beslenme, g
 npm run typecheck
 ```
 
+## Sunucuyu internete taşıma (Render.com)
+
+Kurulum dosyası hazır: `render.yaml`. Yapmanız gerekenler:
+
+1. [render.com](https://render.com)'da GitHub hesabınızla üye olun.
+2. **New → Blueprint** deyin, `yesilea` deposunu seçin.
+3. Gizli değerleri soran ekranda şimdilik hepsini boş bırakıp **Apply** deyin. Sonradan doldurabilirsiniz:
+   - `ANTHROPIC_API_KEY`: boşsa örnek tariflerle çalışır
+   - `BREVO_API_KEY` ve `MAIL_FROM`: boşsa giriş kodu uygulamada görünür (`TEST_MODE=1`)
+4. Birkaç dakika sonra sunucu `https://yesilea-server.onrender.com` adresinde açılır. Kontrol: adresin sonuna `/health` ekleyin, `{"ok":true,...}` görmelisiniz.
+   Render farklı bir adres verirse `apps/mobile/eas.json` içindeki `EXPO_PUBLIC_API_URL`'yi o adresle değiştirin.
+
+**Ücret:** `starter` planı ve 1 GB disk, aylık yaklaşık 7–8 $. Ücretsiz planda disk olmadığı için kullanıcı verileri her yeniden başlatmada silinir; gerçek kullanıcılar için uygun değildir.
+
+Bundan sonra `main` dalına gelen sunucu değişiklikleri otomatik yayınlanır.
+
 ## Verdiğim kararlar (değiştirmek isterseniz söyleyin)
 
 | Konu | Karar | Neden |
@@ -90,7 +106,7 @@ npm run typecheck
 
 ## Henüz yapılmayanlar
 
-1. **Sunucuyu internete taşımak:** Şu an sunucu bilgisayarda çalışıyor; uygulama yalnızca aynı Wi-Fi'da çalışır.
+1. **Sunucuyu internete taşımak:** Ayarlar hazır (`render.yaml`, yukarıdaki bölüm); Render hesabı açılıp kurulması gerekiyor.
 2. **Abonelik ödemesi:** App Store / Google Play geliştirici hesapları ve ürün tanımları gerekiyor (önerim RevenueCat).
 3. **E-posta gönderimi:** Giriş kodu için e-posta servisi (`apps/server/src/auth.ts` → `sendLoginEmail`).
 4. **Claude API anahtarı:** Gerçek menü üretimi için. Anahtar yokken örnek tariflerle çalışır.
