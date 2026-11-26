@@ -1,0 +1,31 @@
+# Render.com için tek tıkla kurulum tanımı (Blueprint). Diğer hizmetlerde Dockerfile doğrudan kullanılabilir.
+services:
+  - type: web
+    name: yesilea-server
+    runtime: docker
+    dockerfilePath: ./apps/server/Dockerfile
+    dockerContext: .
+    region: frankfurt
+    plan: starter
+    healthCheckPath: /health
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: APPLE_BUNDLE_ID
+        sync: false
+      - key: GOOGLE_CLIENT_IDS
+        sync: false
+      - key: REVENUECAT_WEBHOOK_SECRET
+        generateValue: true
+      # Kapalı test dönemi: giriş kodu uygulamada görünür, Premium denenebilir. MAĞAZA YAYININDAN ÖNCE 0 YAPIN.
+      - key: TEST_MODE
+        value: "1"
+      # E-posta ile giriş kodu (Brevo, ücretsiz plan). İkisi de doluysa kod e-postayla gider.
+      - key: BREVO_API_KEY
+        sync: false
+      - key: MAIL_FROM
+        sync: false

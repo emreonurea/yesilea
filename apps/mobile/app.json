@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "Yeşilea",
+    "slug": "ne-pisirsem",
+    "scheme": "nepisirsem",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "bundleIdentifier": "com.ornek.nepisirsem",
+      "usesAppleSignIn": true,
+      "supportsTablet": false
+    },
+    "android": {
+      "package": "com.ornek.nepisirsem",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#16A34A"
+      }
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-apple-authentication",
+      "expo-status-bar",
+      "expo-web-browser"
+    ],
+    "experiments": {
+      "typedRoutes": false
+    },
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#15803D"
+    },
+    "primaryColor": "#15803D"
+  }
+}

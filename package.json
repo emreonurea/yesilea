@@ -1,0 +1,16 @@
+{
+  "name": "menu-app",
+  "private": true,
+  "workspaces": ["packages/*", "apps/*"],
+  "scripts": {
+    "test": "tsx --test packages/shared/test/*.test.ts apps/server/test/*.test.ts",
+    "typecheck": "tsc -p packages/shared && tsc -p apps/server",
+    "server": "npm run dev -w apps/server",
+    "mobile": "npm run start -w apps/mobile"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "@types/node": "^22.0.0"
+  }
+}
