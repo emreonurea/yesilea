@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
-import { COST_NOTE, formatTry, UNITS, type UnitKey } from "@menu/shared";
+import { formatTry, UNITS, type UnitKey } from "@menu/shared";
 import { api } from "../lib/api";
 import { useLoad } from "../lib/useLoad";
 import { Button, Card, Chip, colors, ErrorText, Field, Muted, s, Screen } from "../components/ui";
 
-const PRICE_UNITS: UnitKey[] = ["kg", "g", "l", "adet", "demet"];
+const PRICE_UNITS: UnitKey[] = ["kg", "l", "adet", "demet"];
+const UNIT_CHIP: Partial<Record<UnitKey, string>> = { kg: "kg fiyatı", l: "litre fiyatı", adet: "adet fiyatı", demet: "demet fiyatı" };
+const UNIT_Q: Partial<Record<UnitKey, string>> = { kg: "1 kilo", l: "1 litre", adet: "1 tane", demet: "1 demet" };
 
 export default function Prices() {
   const { data: prices, setData, error, setError } = useLoad(api.prices);
@@ -29,14 +31,14 @@ export default function Prices() {
 
   return (
     <Screen>
-      <Muted style={{ marginBottom: 12 }}>{COST_NOTE} Fiyatları uygulama tahmin etmez.</Muted>
+      <Muted style={{ marginBottom: 12 }}>Marketteki fiyatları girin, uygulama market listenizin tutarını hesaplasın. Örnek: domates, kg fiyatı, 55 TL. Fiyatı girilmemiş malzemeler toplama katılmaz.</Muted>
       <Card>
         <Field label="Malzeme" value={name} onChangeText={setName} placeholder="ör. domates" />
-        <Field label="Fiyat (TL)" keyboardType="decimal-pad" value={price} onChangeText={setPrice} placeholder="ör. 40" />
-        <Text style={s.label}>Birim</Text>
-        <View style={s.wrap}>
-          {PRICE_UNITS.map((u) => <Chip key={u} label={`1 ${UNITS[u].label}`} selected={unit === u} onPress={() => setUnit(u)} />)}
+        <Text style={s.label}>Neyin fiyatını biliyorsunuz?</Text>
+        <View style={[s.wrap, { marginBottom: 4 }]}>
+          {PRICE_UNITS.map((u) => <Chip key={u} label={UNIT_CHIP[u] ?? UNITS[u].label} selected={unit === u} onPress={() => setUnit(u)} />)}
         </View>
+        <Field label={`${UNIT_Q[unit] ?? "1 birim"} ${name.trim() || "malzeme"} kaç TL?`} keyboardType="decimal-pad" value={price} onChangeText={setPrice} placeholder="ör. 40" />
         <Button title="Kaydet" onPress={save} loading={busy} disabled={!name.trim() || !price} />
       </Card>
       <ErrorText error={error} />
