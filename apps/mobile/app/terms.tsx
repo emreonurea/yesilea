@@ -10,7 +10,7 @@ const SECTIONS: [string, string][] = [
   ["Premium abonelik", "Premium, App Store ya da Google Play üzerinden satın alınan otomatik yenilenen bir aboneliktir. Ücret satın alma onayında hesabınızdan alınır. Dönem bitiminden en az 24 saat önce iptal edilmezse abonelik yenilenir. Aboneliği mağaza hesap ayarlarınızdan yönetebilirsiniz. İadeler ilgili mağazanın kurallarına tabidir."],
   ["Kullanım kuralları", "Uygulamayı yasalara aykırı amaçlarla, başkalarının haklarını ihlal edecek şekilde ya da sistemi aşırı yükleyecek otomatik araçlarla kullanamazsınız."],
   ["Sorumluluğun sınırı", "Uygulama olduğu gibi sunulur. Yasaların izin verdiği ölçüde, tariflerin uygulanmasından ya da içeriklerin kullanılmasından doğan zararlardan sorumluluk kabul edilmez."],
-  ["Değişiklikler ve iletişim", "Bu koşullar güncellenebilir; önemli değişikliklerde uygulama içinde bilgilendirilirsiniz. İletişim: [iletişim e-postası]."],
+  ["Değişiklikler ve iletişim", "Bu koşullar güncellenebilir; önemli değişikliklerde uygulama içinde bilgilendirilirsiniz. İletişim: emreonurea@gmail.com"],
 ];
 
 export default function Terms() {

@@ -101,7 +101,7 @@ npm run typecheck
 ## Yayından önce mutlaka
 
 - Gizlilik politikasındaki veri sorumlusu bilgilerini doldurun ve bir hukukçuya kontrol ettirin. Alerji bilgisi sağlık verisi sayılabilir; açık rıza metni gerekir.
-- `app.json` içindeki `com.ornek.nepisirsem` kimliğini kendi alan adınıza göre değiştirin.
+- Uygulama kimliği `com.yesilea.app` (app.json). Mağazaya ilk yüklemeden sonra değiştirilemez.
 - Sunucuyu HTTPS arkasında yayınlayın, `NODE_ENV=production` yapın.
 - Örnek tarifler (`packages/shared/src/sampleRecipes.ts`) yalnızca deneme içindir.
 - Yiyecek veritabanı (`foods.ts`) ve diyet tariflerinin (`dietRecipes.ts`) besin değerleri yaklaşıktır; bir diyetisyen ya da TürKomp ile kontrol ettirin.
