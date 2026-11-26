@@ -35,6 +35,7 @@ jobs:
         working-directory: apps/mobile
         env:
           EXPO_PUBLIC_LOCAL: "1"
+          EXPO_PUBLIC_BUILD: ${{ github.run_number }}
         run: npx expo export --platform web --output-dir dist
       - name: Sayfa yönlendirmesi
         run: cp apps/mobile/dist/index.html apps/mobile/dist/404.html

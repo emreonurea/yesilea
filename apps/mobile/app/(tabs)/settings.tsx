@@ -81,6 +81,7 @@ export default function Settings() {
 
       <ErrorText error={error} />
       <Muted style={{ fontSize: 12 }}>{DISCLAIMER_RELIGIOUS}</Muted>
+      <Muted style={{ fontSize: 11, marginTop: 12, textAlign: "center" }}>Sürüm: {process.env.EXPO_PUBLIC_BUILD ?? "geliştirme"}</Muted>
     </Screen>
   );
 }
