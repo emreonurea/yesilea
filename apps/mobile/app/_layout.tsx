@@ -1,3 +1,4 @@
+import { ErrorScreen } from "../components/ErrorScreen";
 import { useEffect } from "react";
 import { Stack, router, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -53,4 +54,8 @@ export default function RootLayout() {
       </ThemeProvider>
     </SafeAreaProvider>
   );
+}
+
+export function ErrorBoundary(props: { error: Error; retry: () => Promise<void> }) {
+  return <ErrorScreen {...props} />;
 }

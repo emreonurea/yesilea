@@ -1,3 +1,4 @@
+import { ErrorScreen } from "../../components/ErrorScreen";
 import { Tabs } from "expo-router";
 import { Text } from "react-native";
 import { colors } from "../../components/ui";
@@ -14,4 +15,8 @@ export default function TabsLayout() {
       <Tabs.Screen name="settings" options={{ title: "Ayarlar", tabBarIcon: icon("⚙️") }} />
     </Tabs>
   );
+}
+
+export function ErrorBoundary(props: { error: Error; retry: () => Promise<void> }) {
+  return <ErrorScreen {...props} />;
 }
