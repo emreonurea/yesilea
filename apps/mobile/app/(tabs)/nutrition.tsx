@@ -43,7 +43,7 @@ export default function NutritionScreen() {
       ) : (
         <Card>
           <Text style={{ fontSize: 16, fontWeight: "700", color: colors.text }}>Günlük hedefiniz: {t.kcal} kcal</Text>
-          <Muted>Protein {t.protein_g} g · Karbonhidrat {t.karb_g} g · Yağ {t.yag_g} g · BKİ {t.bmi}</Muted>
+          <Muted>Protein {t.protein_g} g · Karbonhidrat {t.karb_g} g · Yağ {t.yag_g} g · BKİ {String(t.bmi).replace(".", ",")}</Muted>
           <Button title="Bilgilerimi düzenle" kind="secondary" onPress={() => router.push("/body")} />
         </Card>
       )}

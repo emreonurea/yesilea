@@ -95,7 +95,7 @@ export default function Body() {
           <Text style={{ fontSize: 16, fontWeight: "700", color: colors.text }}>Günlük hedefiniz</Text>
           <Text style={{ fontSize: 28, fontWeight: "800", color: colors.primary, marginVertical: 4 }}>{targets.kcal} kcal</Text>
           <Muted>Protein {targets.protein_g} g · Karbonhidrat {targets.karb_g} g · Yağ {targets.yag_g} g</Muted>
-          <Muted style={{ marginTop: 4 }}>Vücut kitle indeksi: {targets.bmi} ({targets.bmi_label}) · Bazal metabolizma: {targets.bmr} kcal</Muted>
+          <Muted style={{ marginTop: 4 }}>Vücut kitle indeksi: {String(targets.bmi).replace(".", ",")} ({targets.bmi_label}) · Bazal metabolizma: {targets.bmr} kcal</Muted>
           {targets.notes.map((n) => <Muted key={n} style={{ marginTop: 6, fontSize: 12 }}>• {n}</Muted>)}
         </Card>
       ) : null}

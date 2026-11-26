@@ -1,9 +1,9 @@
 import { ErrorScreen } from "../../components/ErrorScreen";
 import { Tabs } from "expo-router";
-import { Text } from "react-native";
+import { Text, type ColorValue } from "react-native";
 import { colors } from "../../components/ui";
 
-const icon = (glyph: string) => ({ color }: { color: string }) => <Text style={{ fontSize: 18, color }}>{glyph}</Text>;
+const icon = (glyph: string) => ({ color }: { color: ColorValue }) => <Text style={{ fontSize: 18, color }}>{glyph}</Text>;
 
 export default function TabsLayout() {
   return (

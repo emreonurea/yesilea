@@ -43,7 +43,7 @@ export const DIET_RECIPES: D[] = [
     ...base, id: "diyet-sebzeli-omlet", slots: ["kahvalti", "aksam"], name_tr: "Ispanaklı mantarlı omlet", description: "Az yağla, bol sebzeyle omlet.",
     servings: 2, prep_min: 5, cook_min: 8, difficulty: "kolay", allergens: ["yumurta"], diet_tags: ["vejetaryen"],
     ingredients: [
-      { name: "yumurta", qty: 4, unit: "adet" }, { name: "ıspanak", qty: 100, unit: "g" }, { name: "mantar", qty: 100, unit: "g" },
+      { name: "yumurta", qty: 4, unit: "adet" }, { name: "ıspanak", qty: 100, unit: "g" }, { name: "kültür mantarı", qty: 100, unit: "g" },
       { name: "domates", qty: 1, unit: "adet" }, { name: "zeytinyağı", qty: 1, unit: "tatli_kasigi" }, { name: "tuz", qty: 1, unit: "tutam" },
     ],
     steps: ["Mantarı ve ıspanağı zeytinyağında 3 dakika soteleyin.", "Çırpılmış yumurtayı ve doğranmış domatesi ekleyin.", "Kapağı kapalı, kısık ateşte 4-5 dakika pişirin."],

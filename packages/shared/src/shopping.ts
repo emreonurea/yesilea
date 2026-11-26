@@ -15,6 +15,9 @@ export interface ShoppingItem {
 /** Market listesine hiç eklenmeyen temel girdiler. */
 const SKIP = new Set(["su", "ilik su", "sicak su", "soguk su"]);
 
+/** Markette tam sayıyla alınan ölçüler. */
+const WHOLE_DIMS = new Set(["adet", "demet", "dis", "dilim"]);
+
 function sameIngredient(a: string, b: string): boolean {
   const na = normalize(a);
   const nb = normalize(b);
@@ -57,7 +60,9 @@ export function buildShoppingList(
       if (UNITS[p.unit].dim === UNITS[item.unit].dim) base -= toBase(p.qty, p.unit);
     }
     if (covered || base <= 1e-9) continue;
-    const q = base / UNITS[item.unit].base;
+    let q = base / UNITS[item.unit].base;
+    // Adetle alınan şeyler markette bölünmez: 12,5 domates yerine 13 yazılır.
+    if (WHOLE_DIMS.has(UNITS[item.unit].dim)) q = Math.ceil(q - 1e-9);
     const pretty = prettyUnit(q, item.unit);
     out.push({ key: item.key, name: item.name, qty: pretty.qty, unit: pretty.unit, aisle: item.aisle, recipes: item.recipes });
   }

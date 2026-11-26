@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Switch, Text, View } from "react-native";
+import { Link } from "expo-router";
 import { ALLERGEN_KEYS, ALLERGEN_LABELS, DISCLAIMER_RELIGIOUS, type AllergenKey, type Diet, type Profile } from "@menu/shared";
 import { api } from "../lib/api";
 import { Button, Card, Chip, colors, ErrorText, Field, Muted, s } from "./ui";
@@ -67,7 +68,7 @@ export function ProfileForm({ initial, onSaved, submitLabel = "Kaydet" }: { init
         <Card style={{ backgroundColor: "#FFFBEB", borderColor: "#FDE68A" }}>
           <View style={[s.row, { alignItems: "flex-start" }]}>
             <Switch value={consent} onValueChange={setConsent} trackColor={{ true: colors.primary }} />
-            <Text style={{ flex: 1, marginLeft: 10, color: colors.text, fontSize: 13 }}>Alerji ve vücut bilgilerim (boy, kilo, yaş), yemek, su ve kilo kayıtlarım gibi sağlık verilerimin bana menü, tarif ve beslenme önerisi sunulması amacıyla işlenmesine ve menü hazırlanırken alerji bilgilerimin yurt dışındaki yapay zekâ hizmet sağlayıcısına (Anthropic, ABD) aktarılmasına açık rıza veriyorum. Rızamı Ayarlar'dan istediğim zaman geri alabilirim.</Text>
+            <Text style={{ flex: 1, marginLeft: 10, color: colors.text, fontSize: 13 }}>Alerji ve vücut bilgilerim (boy, kilo, yaş), yemek, su ve kilo kayıtlarım gibi sağlık verilerimin bana menü, tarif ve beslenme önerisi sunulması amacıyla işlenmesine ve menü hazırlanırken alerji bilgilerimin yurt dışındaki yapay zekâ hizmet sağlayıcısına (Anthropic, ABD) aktarılmasına açık rıza veriyorum. Rızamı Ayarlar'dan istediğim zaman geri alabilirim. <Link href="/privacy" style={{ color: colors.primary, textDecorationLine: "underline" }}>Gizlilik politikasını oku</Link></Text>
           </View>
         </Card>
       ) : null}
