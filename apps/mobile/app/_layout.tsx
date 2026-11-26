@@ -17,7 +17,7 @@ function Gate() {
     const atLogin = first === "login";
     const atPublic = atLogin || first === "privacy" || first === "terms";
     if (!signedIn && !atPublic) router.replace("/login");
-    else if (signedIn && me && !me.has_profile && first !== "onboarding") router.replace("/onboarding");
+    else if (signedIn && me && !me.has_profile && first !== "onboarding" && !atPublic) router.replace("/onboarding");
     else if (signedIn && atLogin) router.replace("/");
   }, [ready, signedIn, me, segments]);
 

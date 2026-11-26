@@ -83,6 +83,9 @@ test("market listesi: toplar, evdekini düşer, reyona göre gruplar", () => {
   const dom = list.find((i) => i.name === "domates")!;
   assert.equal(dom.qty, 6); // 3 adet x 2 kat
   assert.equal(list.find((i) => i.name === "yumurta")!.qty, 6); // 8 - 2
+  // 3 kişilik menemen: 4,5 domates -> markette 5 adet
+  const odd = buildShoppingList([{ recipe: menemen, servings: 3 }], []);
+  assert.equal(odd.find((i) => i.name === "domates")!.qty, 5);
   assert.equal(list.find((i) => i.name === "tuz"), undefined);
   const zy = list.find((i) => i.name === "zeytinyağı")!;
   assert.equal(zy.unit, "yemek_kasigi");
